@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Практическая работа №1 — Трёхэлементная система</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+  
+       <h1> Оценка вероятностей реализации трёхэлементного сечения для стратегии параллельного восстановления</h1>
+    </header>
+
+
+
+        <div class="section">
+            <div class="section-title">Структура состояний системы (8 состояний)</div>
+            <div class="states-grid">
+                <div class="state-card"><div class="name">S₀</div><div class="desc">Все работают</div></div>
+                <div class="state-card"><div class="name">S₁</div><div class="desc">Отказ эл. 1</div></div>
+                <div class="state-card"><div class="name">S₂</div><div class="desc">Отказ эл. 2</div></div>
+                <div class="state-card"><div class="name">S₃</div><div class="desc">Отказ эл. 3</div></div>
+                <div class="state-card"><div class="name">S₄</div><div class="desc">Отказ 1, 2</div></div>
+                <div class="state-card"><div class="name">S₅</div><div class="desc">Отказ 1, 3</div></div>
+                <div class="state-card"><div class="name">S₆</div><div class="desc">Отказ 2, 3</div></div>
+                <div class="state-card"><div class="name">S₇</div><div class="desc">Все отказали</div></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Граф состояний системы</div>
+            <div class="graph-container">
+                <canvas id="graphCanvas"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Расчётная часть</div>
+            <div class="error-msg" id="errorMsg"></div>
+            <div class="loading" id="loading">Вычисление</div>
+            
+            <div class="grid-2">
+                <div class="input-panel">
+                    <div class="input-group">
+                        <label>Интенсивности отказов (λ)</label>
+                        <div class="input-row">
+                            <input type="number" id="l1" value="1" step="0.1" min="0" placeholder="λ₁">
+                            <input type="number" id="l2" value="1" step="0.1" min="0" placeholder="λ₂">
+                            <input type="number" id="l3" value="1" step="0.1" min="0" placeholder="λ₃">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Интенсивности восстановлений (μ)</label>
+                        <div class="input-row">
+                            <input type="number" id="m1" value="10" step="0.1" min="0" placeholder="μ₁">
+                            <input type="number" id="m2" value="10" step="0.1" min="0" placeholder="μ₂">
+                            <input type="number" id="m3" value="10" step="0.1" min="0" placeholder="μ₃">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Время моделирования (T)</label>
+                        <input type="number" id="T" value="1" step="0.1" min="0.1">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="calculate()">Рассчитать</button>
+                        <button class="btn btn-secondary" onclick="reset()">Сброс</button>
+                    </div>
+                </div>
+
+                <div class="results-panel" id="results">
+                    <label style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 1rem;">Вероятности в момент T (%)</label>
+                    <div id="probList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Система дифференциальных уравнений Колмогорова-Чепмена</div>
+            <div class="equations-scroll" id="equations"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Матрица интенсивностей переходов Q</div>
+            <div class="matrix-scroll" id="matrix"></div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Динамика вероятностей P(t)</div>
+            <div class="chart-container">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+
+        
+            <div class="conclusion">
+                С помощью данного калькулятора производится оценка вероятностей реализации трёхэлементного сечения для стратегии параллельного восстановления. Анализ происходит с помощью графа состояний, на основе которого строится и решается система дифференциальных уравнений Колмогорова-Чепмена численным методом Рунге-Кутта 4-го порядка. В результате решения системы оценивается влияние интенсивностей восстановления и отказа элементов на работоспособность всей системы.
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
